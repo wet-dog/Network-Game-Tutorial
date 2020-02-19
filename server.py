@@ -1,6 +1,5 @@
 import socket
-from _thread import *
-import sys
+from _thread import start_new_thread
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -11,7 +10,6 @@ server_ip = socket.gethostbyname(server)
 
 try:
     s.bind((server, port))
-
 except socket.error as e:
     print(str(e))
 
@@ -33,7 +31,7 @@ def threaded_client(conn):
                 conn.send(str.encode("Goodbye"))
                 break
             else:
-                print("Recieved: " + reply)
+                # print("Recieved: " + reply)
                 arr = reply.split(":")
                 id = int(arr[0])
                 pos[id] = reply
@@ -42,7 +40,7 @@ def threaded_client(conn):
                 if id == 1: nid = 0
 
                 reply = pos[nid][:]
-                print("Sending: " + reply)
+                # print("Sending: " + reply)
 
             conn.sendall(str.encode(reply))
         except:
