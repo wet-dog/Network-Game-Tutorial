@@ -1,6 +1,5 @@
 import socket
-from _thread import *
-import sys
+from _thread import start_new_thread
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -11,12 +10,11 @@ server_ip = socket.gethostbyname(server)
 
 try:
     s.bind((server, port))
-
 except socket.error as e:
     print(str(e))
 
 s.listen(2)
-# print("Waiting for a connection")
+print("Waiting for a connection")
 
 currentId = "0"
 pos = ["0:50,50", "1:100,100"]
@@ -53,6 +51,6 @@ def threaded_client(conn):
 
 while True:
     conn, addr = s.accept()
-    # print("Connected to: ", addr)
+    print("Connected to: ", addr)
 
     start_new_thread(threaded_client, (conn,))
