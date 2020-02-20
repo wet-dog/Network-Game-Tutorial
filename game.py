@@ -87,7 +87,8 @@ class Game:
         Send position to server
         :return: None
         """
-        data = str(self.net.id) + ":" + str(self.player.x) + "," + str(self.player.y)
+        # data = str(self.net.id) + ":" + str(self.player.x) + "," + str(self.player.y)
+        data = f"{self.net.id}:{self.player.x},{self.player.y}"
         reply = self.net.send(data)
         return reply
 
