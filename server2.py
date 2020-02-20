@@ -2,11 +2,11 @@
 import socket
 
 # import thread module
-from _thread import *
-import threading
+from _thread import start_new_thread
 
 # print_lock = threading.Lock()
 
+clients = []
 # thread function
 def threaded(c):
     while True:
@@ -21,7 +21,10 @@ def threaded(c):
             break
 
         # send back reversed string to client
-        c.send(data)
+        for client in clients:
+            if client != c:
+                # IF NOT SAME CLIENT DO SOMETHING
+                client.send(data)
 
     # connection closed
     c.close()
@@ -33,7 +36,7 @@ def Main():
     # reverse a port on your computer
     # in our case it is 12345 but it
     # can be anything
-    port = 12345
+    port = 5555
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((host, port))
     print("socket binded to port", port)
@@ -44,9 +47,9 @@ def Main():
 
     # a forever loop until client wants to exit
     while True:
-
         # establish connection with client
         c, addr = s.accept()
+        clients.append(c)
 
         # lock acquired by client
         # print_lock.acquire()
